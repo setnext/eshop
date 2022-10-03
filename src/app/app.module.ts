@@ -13,6 +13,8 @@ import { BannersComponent } from './banners/banners.component';
 import { map, Observable, tap } from 'rxjs';
 import { FooterComponent } from './footer/footer.component';
 import { ConfigService } from './services/config.service';
+import { ProductModule } from './product/product.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export interface CMSToken {
   data:Data
@@ -72,7 +74,8 @@ function initializeAppFactory(http: HttpClient, auth:AuthService,conf:ConfigServ
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ProductModule
   ],
   providers: [
     AuthService,

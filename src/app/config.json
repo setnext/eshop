@@ -1,3 +1,3 @@
 {
-    "contentServiceUrl": "http://adb686bccd78342258e8789eb0959882-1182732879.us-east-2.elb.amazonaws.com"
+    "contentServiceUrl": "http://localhost:1337"
 }
