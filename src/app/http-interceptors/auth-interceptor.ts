@@ -5,19 +5,20 @@ import {
 import {Observable, throwError} from 'rxjs';
 
 import { AuthService } from '../auth.service';
+import { ConfigService } from '../services/config.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   data :any
   public cmsToken =""
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private conf:ConfigService) {}
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     console.log('yes it is');
     // Get the auth token from the service
         
-    
-        const cmsToken = this.auth.getCMSAuthToken();
+
+        const cmsToken = this.conf.authorizationHeader;
         console.log(cmsToken);
 
         // console.log("interceptor call with token " + cmsToken);

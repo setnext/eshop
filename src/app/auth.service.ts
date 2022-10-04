@@ -55,7 +55,7 @@ export class AuthService {
   //       this.cmsAuthToken=data.data.token;
   //   });
   console.log("callled second");
-  return this.http.post<any>(this.cmsUrl,this.data,this.options).toPromise();
+  // return this.http.post<any>(this.cmsUrl,this.data,this.options).toPromise();
   }
   
   getCMSAuthToken() {

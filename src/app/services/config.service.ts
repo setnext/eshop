@@ -6,9 +6,11 @@ import conf from '../config.json'
 })
 export class ConfigService {
   contentServiceUrl: string ;
+  authorizationHeader: string;
   constructor() {
     console.log('reading');
     this.contentServiceUrl = conf.contentServiceUrl;
+    this.authorizationHeader = conf.authorizationHeader;
    }
 
 

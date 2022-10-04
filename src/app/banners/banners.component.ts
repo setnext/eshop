@@ -17,28 +17,28 @@ export class BannersComponent implements OnInit {
 
   ngOnInit(){
 
-    const token = this.auth.cmsAuthToken;
+    const token = this.conf.authorizationHeader;
     this.cmsOrigin = this.conf.contentServiceUrl;
   
     
 
      var imgArray =[];   
-    this.http.get<any>(this.conf.contentServiceUrl+'/banners', {headers: {
+    this.http.get<any>(this.conf.contentServiceUrl+'/api/banners?populate=*', {headers: {
     "Authorization": token,
   }}).subscribe(data => {
         console.log("banner received");
         this.banners = data;
-        console.log(data);
-        console.log(this.banners[0].Image.formats.large.url);
+        console.log(data.data[0].attributes.image.data.attributes.formats.large.url);
+       
     });
 
-    this.http.get<any>(this.conf.contentServiceUrl+'/banner-sms', {headers: {
+    this.http.get<any>(this.conf.contentServiceUrl+'/api/banner-sms?populate=*', {headers: {
     "Authorization": token,
   }}).subscribe(data1 => {
         console.log("banner-sm data received");
-        this.smbanners = data1;
-        console.log(data1);
-        console.log(this.smbanners[0].image.formats.small.url);
+        this.smbanners = data1.data;
+        console.log(data1.data);
+        console.log(this.smbanners[0].attributes.image.data.attributes.formats.small.url);
         // this.smbanners.array.forEach((element: any) => {
         //   console.log(element);
         // });

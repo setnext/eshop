@@ -42,34 +42,10 @@ spec:
               value: "false"
             - name: DATABASE_USERNAME
               value: strapi
-          image: strapi/strapi
+          image: setnext/cms_dev:v1
+          imagePullPolicy: Always
           name: strapi
           ports:
             - containerPort: 1337
           resources: {}
-          volumeMounts:
-            - mountPath: /srv/app
-              name: strapi-claim0
       restartPolicy: Always
-      initContainers:
-      - name: api-downloader
-        image: amazon/aws-cli
-        command: ['sh', '-c', "aws s3 cp --recursive --region us-east-2 s3://isotropic/banner-apis/api/ 
-/srv/app/api/"]
-        volumeMounts:
-        - mountPath: /srv/app/api
-          subPath: api
-          name: strapi-claim0
-      - name: banner-image-downloader
-        image: amazon/aws-cli
-        command: ['sh', '-c', "aws s3 cp --recursive --region us-east-2 s3://isotropic/banners-uploads/
-/srv/app/public/uploads"]
-        volumeMounts:
-        - mountPath: /srv/app/public/uploads
-          subPath: public/uploads
-          name: strapi-claim0
-      volumes:
-        - name: strapi-claim0
-          persistentVolumeClaim:
-            claimName: strapi-claim0
-status: {}
