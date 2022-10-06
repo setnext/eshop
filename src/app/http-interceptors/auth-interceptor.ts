@@ -15,26 +15,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     console.log('yes it is');
-    // Get the auth token from the service
-        
-
+   
         const cmsToken = this.conf.authorizationHeader;
         console.log(cmsToken);
 
-        // console.log("interceptor call with token " + cmsToken);
-   
-    
-    // const authToken = this.auth.getCMSAuthToken();
-
-    /*
-    * The verbose way:
-    // Clone the request and replace the original headers with
-    // cloned headers, updated with the authorization.
-    const authReq = req.clone({
-      headers: req.headers.set('Authorization', authToken)
-    });
-    */
-    // Clone the request and set the new header in one step.
      req = req.clone({ setHeaders: { Authorization: cmsToken } });
 
     // send cloned request with header to the next handler.
