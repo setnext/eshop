@@ -26,8 +26,16 @@ spec:
     spec:
       containers:
       - name: eshop
-        image: setnext/web:v8
+        image: localhost:5001/eshop-web-local:v3
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/share/nginx/html/assets/config/config.json
+          subPath: config.json
+      volumes:
+      - name: config-volume
+        configMap:
+          name: eshop-web-config
       restartPolicy: Always

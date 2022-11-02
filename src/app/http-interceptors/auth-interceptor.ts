@@ -4,22 +4,35 @@ import {
 } from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/authService/auth.service';
 import { ConfigService } from '../services/config.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   data :any
-  public cmsToken =""
-  constructor(private auth: AuthService, private conf:ConfigService) {}
+  cmsToken:string=""
+  constructor(private conf:ConfigService) {}
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     console.log('yes it is');
    
-        const cmsToken = this.conf.authorizationHeader;
-        console.log(cmsToken);
+       
+
+     if (req.url.includes("/auth")){
+      console.log('auth calls');
+      const apiToken = this.conf.config.apiToken;
+      console.log(apiToken);
+      req = req.clone({ setHeaders: { 'x-api-key': apiToken } });
+
+     }
+     else
+     {
+      console.log('cms calls'); 
+      const cmsToken = this.conf.config.authorizationHeader;
+      console.log(cmsToken);
 
      req = req.clone({ setHeaders: { Authorization: cmsToken } });
+     }
 
     // send cloned request with header to the next handler.
     return next.handle(req);
