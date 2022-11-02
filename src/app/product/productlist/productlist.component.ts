@@ -45,9 +45,9 @@ export class ProductlistComponent implements OnInit {
   ngOnInit(): void {
 
     this.tabContext = this.router.url.split("/products")[1]
-    console.log("from Product Listing component")
-    console.log(this.tabContext);
-    console.log(this.productList.length)
+    //console.log("from Product Listing component")
+    //console.log(this.tabContext);
+    //console.log(this.productList.length)
 
     if(this.tabContext == '/fashion/all')
     {
@@ -62,7 +62,7 @@ export class ProductlistComponent implements OnInit {
         {pname:"Pinafore Dresses",tag:"sale",isOnSale:true, isOutOfStock:false,isNew:false,starRating:3,price:20,imageUrl:"https://images.pexels.com/photos/914668/pexels-photo-914668.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
         {pname:"Winter Sweater",tag:"new",isOnSale:true, isOutOfStock:false,isNew:false,starRating:4,price:60,imageUrl:"https://images.pexels.com/photos/54203/pexels-photo-54203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
       ]
-      console.log(this.productList.length)
+      //console.log(this.productList.length)
     }
     if(this.tabContext == '/fashion/women')
     {

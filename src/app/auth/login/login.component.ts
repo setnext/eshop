@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/authService/auth.service';
 import { LocalService } from 'src/app/services/storage/local.service';
 
@@ -17,11 +18,12 @@ export class LoginComponent implements OnInit {
   loginForm: any;
   userName: any;
   password: any;
+  loginFailedStatus ="";
   //#endregion sdasd
 
   //#region Constructor Start
 
-  constructor(private http:HttpClient,private localStore:LocalService,private auth:AuthService) { }
+  constructor(private http:HttpClient,private localStore:LocalService,private auth:AuthService,private router: Router) { }
   //#endregion Constructor - End
 
   //#region Init
@@ -38,28 +40,29 @@ export class LoginComponent implements OnInit {
   //#region OnSubmit
   onLoginSubmit(data: any) {
     this.submitted = true;
-    console.log("submit");
-
+    
     if (this.loginForm?.invalid) {
-      console.log(this.loginForm);
-      console.log("form is invalid")
       return;
     }
+    this.auth.login(data.userName,data.password).subscribe(result=>{
+      this.auth.updateLoggInStatus(true);
+      this.router.navigateByUrl('/')
+    },
+    error=>{
+      this.auth.updateLoggInStatus(false);
+      //console.log(error['status']);
+      switch(error['status']){
+        case 401:
+          //console.log("Login Failed, Check Email/Passwords are correct ");
+          this.loginFailedStatus = "Login Failed, Check Email/Passwords are correct"
+          break;
+        default:
+          //console.log("Login Failed, UnKnown Error");
+          this.loginFailedStatus = "Login Failed, UnKnown Error"
 
-    this.http.post<any>('http://localhost:3000/auth/signin', {
-      email: data.userName,
-      password: data.password,
-   },{headers: {
-    "content-type": "application/json"}}).subscribe(data => {
-        console.log("Login Completed Successfully");
-        console.log(data);
-        // console.log(data.token);
-        // this.localStore.saveData('customerToken', data.token,false);
-        // console.log('decrpted data ', this.localStore.getData('customerToken',false));
-    });
+      } 
 
-    this.auth.updateLoggInStatus(true);
-
+    })
 
   }
   //#endregion

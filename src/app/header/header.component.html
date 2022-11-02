@@ -10,7 +10,7 @@
         <div></div>
         
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+          <li><a routerLink="/" class="nav-link px-2 text-secondary">Home</a></li>
           <li><a routerLink='/products/fashion' routerLinkActive="active"  ariaCurrentWhenActive="page" class="nav-link px-2 text-white">Fashion</a></li>
           <li><a routerLink='/products/electronics' routerLinkActive="active"  ariaCurrentWhenActive="page" class="nav-link px-2 text-white">Electronics</a></li>
           <li><a routerLink='/products/grocery' routerLinkActive="active"  ariaCurrentWhenActive="page" class="nav-link px-2 text-white">Grocery</a></li>
@@ -20,18 +20,18 @@
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
           <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
         </form>
-        <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-            Toggle dropdown
+        
+        <div *ngIf="isLoggedIn" class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            My Account
           </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem>Action - 1</button>
-            <button ngbDropdownItem>Another Action</button>
-            <button ngbDropdownItem>Something else is here</button>
-          </div>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" (click)="logout()" >Logout</a></li>
+          </ul>
         </div>
-  
-        <div class="text-end">
+        
+        <div *ngIf="!isLoggedIn" class="text-end">
           <button type="button" [routerLink]="'/login'" class="btn btn-outline-light me-2">Login</button>
           <button type="button" [routerLink]="'/signup'" class="btn btn-warning">Sign-up</button>
         </div>

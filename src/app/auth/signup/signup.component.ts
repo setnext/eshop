@@ -583,7 +583,7 @@ export class SignupComponent implements OnInit {
     );
 
     this.agents.subscribe(data=>{
-      console.log(data);
+      //console.log(data);
     });
 
 
@@ -602,11 +602,11 @@ export class SignupComponent implements OnInit {
   }
   onClickSubmit(data:any) {
     this.submitted=true;
-    console.log(this.formdata);
+    //console.log(this.formdata);
     
     if (this.formdata.invalid) {
-      console.log(this.formdata);
-      console.log("form is invalid")
+      //console.log(this.formdata);
+      //console.log("form is invalid")
       return;
   }
 
@@ -620,7 +620,7 @@ export class SignupComponent implements OnInit {
     this.pincode = data.pincode;
     this.state = data.state;
     this.city = data.city;
-    console.log(data);
+    //console.log(data);
 
       this.http.post<any>('http://localhost:3000/auth/signup', {
       name: data.firstName,
@@ -628,10 +628,10 @@ export class SignupComponent implements OnInit {
       password: data.password,
    },{headers: {
     "content-type": "application/json"}}).subscribe(data => {
-        console.log("Registration Completed Successfully");
-        console.log(data.token);
+        //console.log("Registration Completed Successfully");
+        //console.log(data.token);
         this.localStore.saveData('customerToken', data.token,false);
-        console.log('decrpted data ', this.localStore.getData('customerToken',false));
+        //console.log('decrpted data ', this.localStore.getData('customerToken',false));
     });
 
 

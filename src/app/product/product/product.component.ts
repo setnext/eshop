@@ -18,11 +18,11 @@ export class ProductComponent implements OnInit {
 
     this.tabContext = this.router.url.split("/products")[1]
 
-    console.log(this.tabContext[1])
+    //console.log(this.tabContext[1])
     
     if(this.tabContext == '/fashion/all')
     {
-      console.log('fashion found');
+      //console.log('fashion found');
 
     this.tabs = [{"name":"All","isActive":true, "path":"/all"},
     {"name":"Women","isActive":false, "path":"/women"},

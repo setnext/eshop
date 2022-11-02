@@ -14,22 +14,22 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private conf:ConfigService) {}
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log('yes it is');
+    
    
        
 
      if (req.url.includes("/auth")){
-      console.log('auth calls');
+      
       const apiToken = this.conf.config.apiToken;
-      console.log(apiToken);
+     
       req = req.clone({ setHeaders: { 'x-api-key': apiToken } });
 
      }
      else
      {
-      console.log('cms calls'); 
+     
       const cmsToken = this.conf.config.authorizationHeader;
-      console.log(cmsToken);
+      
 
      req = req.clone({ setHeaders: { Authorization: cmsToken } });
      }
