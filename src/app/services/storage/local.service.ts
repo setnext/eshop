@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import  *  as CryptoJS from  'crypto-js';
+import *  as CryptoJS from 'crypto-js';
+
+enum ObjectType {
+  text,
+  json,
+}
 
 @Injectable({
   providedIn: 'root'
@@ -8,28 +13,50 @@ export class LocalService {
 
   key = "assseerrsseeerrtyuuugghh";
 
+
+
   constructor() { }
 
-  public saveData(key: string, value: string,isEncryptRequired:boolean) {
-    if(isEncryptRequired){
-      localStorage.setItem(key, this.encrypt(value));
+  public saveData(key: string, value: string, type: ObjectType, isEncryptRequired: boolean,) {
+    if (isEncryptRequired) {
+      if (type == ObjectType.text) {
+        localStorage.setItem(key, this.encrypt(value));
+      }
+      if (type == ObjectType.json) {
+        const stringifiedValue = JSON.stringify(value);
+        localStorage.setItem(key, this.encrypt(stringifiedValue));
+      }
+    }
+    else {
+      if (type == ObjectType.json) {
+        const stringifiedValue = JSON.stringify(value);
+        localStorage.setItem(key, stringifiedValue);
+      }
+      else {
+        localStorage.setItem(key, value);
+      }
+    }
+  }
+
+  public getData(key: string,type:ObjectType, isDecryptRequired: boolean) {
+    if (isDecryptRequired) {
+      if(type==ObjectType.json){
+      let data = localStorage.getItem(key) || "";
+      let jsonObj = JSON.parse(this.decrypt(data));
+      return jsonObj;
+      }
+      else
+      {
+        let data = localStorage.getItem(key) || "";
+      return this.decrypt(data);
+      }
+      
 
     }
-    else{
-    localStorage.setItem(key, value);
-  }
-  }
+    else {
 
-  public getData(key: string,isDecryptRequired:boolean) {
-    if(isDecryptRequired){
-    let data = localStorage.getItem(key)|| "";
-    return this.decrypt(data);
-
+      return localStorage.getItem(key)
     }
-    else{
-    
-    return localStorage.getItem(key)
-  }
   }
   public removeData(key: string) {
     localStorage.removeItem(key);

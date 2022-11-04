@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ObjectType } from 'src/app/interfaces/User';
 import { AuthService } from 'src/app/services/authService/auth.service';
 import { LocalService } from 'src/app/services/storage/local.service';
 
@@ -44,7 +45,13 @@ export class LoginComponent implements OnInit {
     if (this.loginForm?.invalid) {
       return;
     }
-    this.auth.login(data.userName,data.password).subscribe(result=>{
+    this.auth.login(data.userName,data.password).subscribe(data=>{
+      this.localStore.saveData('customerToken',data.token,ObjectType.text, false);
+      console.log(data.user);
+      this.localStore.saveData('customerInfo', data.user,ObjectType.json, true);
+      const item = this.localStore.getData('customerInfo',ObjectType.json, true);
+      console.log(item);
+      console.log(item.firstName);
       this.auth.updateLoggInStatus(true);
       this.router.navigateByUrl('/')
     },

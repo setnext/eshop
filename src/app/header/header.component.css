@@ -13,3 +13,18 @@
   .dropdown-toggle {
     outline: 0;
   }
+
+  .dropdown-menu  { background-color:#f9f8f8;}
+
+  .myclass {
+
+    text-decoration: underline;    
+    text-underline-offset: 0.5rem; 
+    text-decoration-color: gray;  
+
+  }
+  .myclass2 {
+
+    color: red;
+
+  }
