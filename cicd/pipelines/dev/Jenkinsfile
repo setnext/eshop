@@ -3,7 +3,10 @@ pipeline {
   agent none
 
   environment {
+    ENV ="DEV"
     NAME = "eshop-web"
+    K8S_NAMESPACE = "${NAME}
+    -${GIT_COMMIT_REV}"
     GIT_HUB_URL = "https://github.com/setnext/eshop.git"
     GIT_HUB_CREDENTIAL_ID = "04b7fff3-441b-491a-9c6d-1654a7fd0b77"
     GIT_COMMIT_REV = ""
