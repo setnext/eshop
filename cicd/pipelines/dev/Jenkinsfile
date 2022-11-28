@@ -3,7 +3,7 @@ pipeline {
   agent none
 
   environment {
-    ENV ="DEV"
+    ENV ="dev"
     NAME = "eshop-web"
     K8S_NAMESPACE = "${NAME}-${ENV}"
     GIT_HUB_URL = "https://github.com/setnext/eshop.git"
