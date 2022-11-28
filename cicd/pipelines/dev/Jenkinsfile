@@ -1,52 +1,31 @@
 pipeline {
-
-  agent none
-
-  environment {
-    NAME = "eshop-web"
-    GIT_HUB_URL = "https://github.com/setnext/eshop.git"
-    GIT_HUB_CREDENTIAL_ID = "04b7fff3-441b-491a-9c6d-1654a7fd0b77"
-    GIT_COMMIT_REV = ""
-    GIT_HUB_BRANCH = "main"
-    VERSION = "${env.BUILD_ID}-${GIT_COMMIT_REV}"
-    IMAGE = "${NAME}:${VERSION}"
-    REPONAME = "setnext"
-  }
+  agent any
   stages {
-    stage('Checkout Eshop Web Api') {
-      agent any
+    stage('Unit Test') {
       steps {
-        script {
-          def scmVars = checkout([$class: 'GitSCM',
-            branches: [
-              [name: "*/{GIT_HUB_BRANCH}"]
-            ],
-            userRemoteConfigs: [
-              [credentialsId: "${GIT_HUB_CREDENTIAL_ID}",
-                url: "${GIT_HUB_URL}"
-              ]
-            ]
-          ])
-          GIT_COMMIT_REV = scmVars.GIT_COMMIT.substring(0, 7)
-          VERSION = "${env.BUILD_ID}-${GIT_COMMIT_REV}"
-          env.IMAGETAG = "${NAME}:${VERSION}"
-
-        }
+        sh 'mvn clean test'
       }
     }
-    stage('Build and Test') {
-      agent {
-         docker {
-            image 'node:lts-buster-slim'
-            args '-p 4200:4200'
-        }
-        }
-      }
+    stage('Deploy Standalone') {
       steps {
-        sh 'npm install'
-        sh 'npm build'
+        sh 'mvn deploy -P standalone'
       }
     }
-}}
+    stage('Deploy AnyPoint') {
+      environment {
+        ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
+      }
+      steps {
+        sh 'mvn deploy -P arm -Darm.target.name=local-4.0.0-ee -Danypoint.username=${ANYPOINT_CREDENTIALS_USR}  -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}'
+      }
+    }
+    stage('Deploy CloudHub') {
+      environment {
+        ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
+      }
+      steps {
+        sh 'mvn deploy -P cloudhub -Dmule.version=4.0.0 -Danypoint.username=${ANYPOINT_CREDENTIALS_USR} -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}'
+      }
+    }
   }
 }
