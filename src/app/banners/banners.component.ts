@@ -29,31 +29,31 @@ export class BannersComponent implements OnInit {
 
      var imgArray =[];   
     this.http.get<any>(this.cmsOrigin+'/api/banners?populate=*').subscribe(data => {
-        //console.log("banner received");
+        ////console.log("banner received");
         
         this.banners = data;
         this.loading=false;
 
         
-        // //console.log(data.data[0].attributes.image.data.attributes.formats.large.url);
+        // ////console.log(data.data[0].attributes.image.data.attributes.formats.large.url);
        
     });
 
     this.http.get<any>(this.cmsOrigin+'/api/banner-sms?populate=*').subscribe(data1 => {
-        //console.log("banner-sm data received");
+        ////console.log("banner-sm data received");
         this.smbanners = data1.data;
         this.loading=false;
-        // //console.log(data1.data);
-        // //console.log(this.smbanners[0].attributes.image.data.attributes.formats.small.url);
+        // ////console.log(data1.data);
+        // ////console.log(this.smbanners[0].attributes.image.data.attributes.formats.small.url);
         // // this.smbanners.array.forEach((element: any) => {
-        //   //console.log(element);
+        //   ////console.log(element);
         // });
     });
 
     
 
     // for (let i = 0; banners.length -1; i++) {
-    //   //console.log(banners[0].Image.large.url);
+    //   ////console.log(banners[0].Image.large.url);
     // }
    
  

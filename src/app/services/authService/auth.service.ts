@@ -12,17 +12,26 @@ import { ObjectType, User } from 'src/app/interfaces/User';
 
 export class AuthService {
   isLoggedIn$: Observable<boolean> | undefined;
+  firstName$: Observable<string> | undefined;
+  private firstName: Subject<string>;
   private isLoggedIn: Subject<boolean>;
+
  
   constructor(private http: HttpClient,private localStore:LocalService){
 
     this.isLoggedIn = new Subject<boolean>();
     this.isLoggedIn$ = this.isLoggedIn.asObservable();
+    this.firstName = new Subject<string>();
+    this.firstName$ = this.firstName.asObservable();
+
    
   }
   public updateLoggInStatus(isLoggedIn: boolean): void {
+    
     this.isLoggedIn?.next(isLoggedIn);
     this.localStore.saveData("isLogged",isLoggedIn.toString(),ObjectType.text, false);
+    
+  
 }
 
 login(userName:string,password:string):Observable<any>{

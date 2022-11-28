@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { faHome, faExpandAlt,faHeart,faShoppingBag,faStar,faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHome,faFileCircleExclamation,faTriangleExclamation,faClose, faExpandAlt,faHeart,faShoppingBag,faStar,faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { ConfigService } from 'src/app/services/config.service';
+import { ProductService } from 'src/app/services/productService/product.service';
 
 export interface productType{
   pname:string
@@ -21,7 +24,18 @@ export interface productType{
 
 export class ProductlistComponent implements OnInit {
 
-  productList:productType[] =[]
+  productList:any[] =[]
+
+  error:String="";
+
+  loading = false;
+  showModal: boolean =false;
+
+  page: number = 0;
+  count: number = 0;
+  tableSize: number = 8;
+  tableSizes: any = [3, 6, 9, 12];
+  productCategory : any;
 
   
 
@@ -35,50 +49,107 @@ export class ProductlistComponent implements OnInit {
   faHeart = faHeart;
   faShoppingBag = faShoppingBag;
   faStarHalf = faStarHalfAlt;
+  faClose=faClose;
+  faFileCircleExclamation =faFileCircleExclamation;
+  faTriangleExclamation = faTriangleExclamation;
 
   faStar = faStar;
 
+  currentProduct:any;
+  currentImageUrl="";
 
-  constructor(private router: Router) { }
+  pagedProducts:any;
+  imageUrl: string="";
+
+
+  constructor(private router: Router, private productService:ProductService,private metaTagService:Meta,private title:Title,private config:ConfigService) { }
   
+  show(productItem:any)
+  {
+   
+    this.currentProduct = productItem;
+    this.showModal = true; // Show-Hide Modal Check
+    // this.currentImageUrl = productItem.image_Url.split("?d")[0]+"?d=1000x1500";
+    // //console.log(this.currentProduct.pname);
+    
+    
+  }
+  //Bootstrap Modal Close event
+  hide()
+  {
+    this.showModal = false;
+  }
+
+  onTableDataChange(event: any) {
+
+    this.loading=true;
+    this.error="";
+    
+    
+    
+    this.productService.getProductsByCategory(this.tabContext,event-1,this.tableSize).subscribe(data=>{
+
+      
+      //console.log("data.curentPage: ", data.currentPage);
+      // //console.log("data.totalItems", data.totalItems);
+      // //console.log("data.totalPages", data.totalPages);
+    
+      this.productList = data.products;
+      this.page = event;
+      this.count = data.totalItems;
+      this.loading=false;
+
+
+    },(error) => {
+      this.loading=false;
+      //console.log(error);
+      this.error="Error at Server, Please try again in sometime"
+    });
+  }
+  onTableSizeChange(event: any): void {
+    //console.log("table size changes");
+    this.tableSize = event.target.value;
+    this.page = 1;
+  }
 
   ngOnInit(): void {
 
+    
+
+    this.loading=true;
+
+    this.imageUrl = this.config.config.imageCloudfrontURL
+
+   this.error="";
+   this.productCategory =  this.router.url;
+
     this.tabContext = this.router.url.split("/products")[1]
-    //console.log("from Product Listing component")
-    //console.log(this.tabContext);
-    //console.log(this.productList.length)
 
-    if(this.tabContext == '/fashion/all')
-    {
+    this.title.setTitle("Eshop - Products Page" + this.tabContext);
 
-      this.productList = [
-        {pname:"Winter Sweater",tag:"sale",isOnSale:true, isOutOfStock:false,isNew:false, starRating:4,price:60,imageUrl:"https://images.pexels.com/photos/54203/pexels-photo-54203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Denim Dresses",tag:"new",isOnSale:false, isOutOfStock:true,isNew:false,starRating:3,price:80,imageUrl:"https://images.pexels.com/photos/6764040/pexels-photo-6764040.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Empire Waist Dresses",tag:"outofstock",isOnSale:false, isOutOfStock:false,isNew:true,starRating:5,price:80,imageUrl:"https://images.pexels.com/photos/914668/pexels-photo-914668.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Pinafore Dresses",tag:"",isOnSale:false, isOutOfStock:false,isNew:false,starRating:3,price:20,imageUrl:"https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Denim Dresses",tag:"",isOnSale:false, isOutOfStock:false,isNew:false,starRating:3,price:80,imageUrl:"https://images.pexels.com/photos/6764040/pexels-photo-6764040.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Empire Waist Dresses",tag:"",isOnSale:false, isOutOfStock:false,isNew:false,starRating:5,price:80,imageUrl:"https://images.pexels.com/photos/54203/pexels-photo-54203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Pinafore Dresses",tag:"sale",isOnSale:true, isOutOfStock:false,isNew:false,starRating:3,price:20,imageUrl:"https://images.pexels.com/photos/914668/pexels-photo-914668.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Winter Sweater",tag:"new",isOnSale:true, isOutOfStock:false,isNew:false,starRating:4,price:60,imageUrl:"https://images.pexels.com/photos/54203/pexels-photo-54203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-      ]
-      //console.log(this.productList.length)
-    }
-    if(this.tabContext == '/fashion/women')
-    {
+  
+
+
+
+    this.productService.getProductsByCategory(this.tabContext,this.page,this.tableSize).subscribe(data=>{
+
       
-      this.productList = [
-        {pname:"women Sweater",tag:"sale",isOnSale:true, isOutOfStock:false,isNew:false, starRating:4,price:60,imageUrl:"https://images.pexels.com/photos/54203/pexels-photo-54203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Denim Dresses",tag:"new",isOnSale:false, isOutOfStock:true,isNew:false,starRating:3,price:80,imageUrl:"https://images.pexels.com/photos/6764040/pexels-photo-6764040.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Empire Waist Dresses",tag:"outofstock",isOnSale:false, isOutOfStock:false,isNew:true,starRating:5,price:80,imageUrl:"https://images.pexels.com/photos/914668/pexels-photo-914668.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Pinafore Dresses",tag:"",isOnSale:false, isOutOfStock:false,isNew:false,starRating:3,price:20,imageUrl:"https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Denim Dresses",tag:"",isOnSale:false, isOutOfStock:false,isNew:false,starRating:3,price:80,imageUrl:"https://images.pexels.com/photos/6764040/pexels-photo-6764040.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Empire Waist Dresses",tag:"",isOnSale:false, isOutOfStock:false,isNew:false,starRating:5,price:80,imageUrl:"https://images.pexels.com/photos/54203/pexels-photo-54203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Pinafore Dresses",tag:"sale",isOnSale:true, isOutOfStock:false,isNew:false,starRating:3,price:20,imageUrl:"https://images.pexels.com/photos/914668/pexels-photo-914668.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-        {pname:"Winter Sweater",tag:"new",isOnSale:true, isOutOfStock:false,isNew:false,starRating:4,price:60,imageUrl:"https://images.pexels.com/photos/54203/pexels-photo-54203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"},
-      ]
+      //console.log("data.curentPage: ", data.currentPage);
+      //console.log("data.totalItems", data.totalItems);
+      //console.log("data.totalPages", data.totalPages);
+    
+      this.productList = data.products;
+      
+      this.count = data.totalItems;
+      this.loading=false;
+      
 
-    }
+
+    },(error) => {
+      this.loading=false;
+      //console.log(error);
+      this.error="Oops, Error at Server, Please try again in sometime"
+    });
 
 
     

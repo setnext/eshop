@@ -12,8 +12,8 @@ export class TestrouteComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ data }) => {
-      //console.log(data);
-      //console.log("here is the token " + data.data.token);
+      ////console.log(data);
+      ////console.log("here is the token " + data.data.token);
       // do something with your resolved data ...
     })
   }

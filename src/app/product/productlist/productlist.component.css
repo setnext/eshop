@@ -51,6 +51,8 @@ body {
     overflow: hidden;
     cursor: pointer;
     padding: 4px;
+
+   
 }
 
 .container .product-item .product img {
@@ -155,3 +157,39 @@ body {
         justify-content: center
     }
 }
+
+.modal {
+    text-align: center;
+  }
+  
+  @media screen and (min-width: 768px) { 
+    .modal:before {
+      display: inline-block;
+      vertical-align: middle;
+      content: " ";
+      height: 100%;
+    }
+  }
+  
+  .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .onsale{
+    text-decoration: line-through;
+    color: red;
+  }
+
+  @media screen and (max-width: 575px) { 
+    .container .product-item .product {
+      display: inline-block;
+      vertical-align: bottom;
+      align-items: center;
+      content: " ";
+      width: 80%;
+      height: 100%;
+    }
+  }
+  

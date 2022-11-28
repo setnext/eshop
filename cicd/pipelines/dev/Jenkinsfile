@@ -1,0 +1,51 @@
+pipeline {
+
+  agent none
+
+  environment {
+    NAME = "eshop-web"
+    GIT_HUB_URL = "https://github.com/setnext/eshop.git"
+    GIT_HUB_CREDENTIAL_ID = "04b7fff3-441b-491a-9c6d-1654a7fd0b77"
+    GIT_COMMIT_REV = ""
+    GIT_HUB_BRANCH = "main"
+    VERSION = "${env.BUILD_ID}-${GIT_COMMIT_REV}"
+    IMAGE = "${NAME}:${VERSION}"
+    REPONAME = "setnext"
+  }
+  stages {
+    stage('Checkout Eshop Web Api') {
+      agent any
+      steps {
+        script {
+          def scmVars = checkout([$class: 'GitSCM',
+            branches: [
+              [name: "*/{GIT_HUB_BRANCH}"]
+            ],
+            userRemoteConfigs: [
+              [credentialsId: "${GIT_HUB_CREDENTIAL_ID}",
+                url: "${GIT_HUB_URL}"
+              ]
+            ]
+          ])
+          GIT_COMMIT_REV = scmVars.GIT_COMMIT.substring(0, 7)
+          VERSION = "${env.BUILD_ID}-${GIT_COMMIT_REV}"
+          env.IMAGETAG = "${NAME}:${VERSION}"
+
+        }
+      }
+    }
+    stage('Build and Test') {
+      agent {
+         docker {
+            image 'node:lts-buster-slim'
+            args '-p 4200:4200'
+        }
+        }
+      }
+      steps {
+        sh 'npm install'
+        sh 'npm build'
+      }
+    }
+  }
+}

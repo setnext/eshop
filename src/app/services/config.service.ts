@@ -6,6 +6,7 @@ export interface Config {
   contentServiceUrl: string;
   authorizationHeader: string;
   apiToken:string;
+  imageCloudfrontURL:string;
 }
 
 @Injectable({
@@ -17,7 +18,9 @@ export class ConfigService {
   public config: Config = {
     contentServiceUrl: '',
     authorizationHeader: '',
-    apiToken:''
+    apiToken:'',
+    imageCloudfrontURL:''
+
 };
 
   constructor(private http:HttpClient) {
@@ -29,9 +32,9 @@ export class ConfigService {
       .toPromise()
       .then(config => {
         this.config= config!;
-        //console.log("Config Loaded");
-        //console.log(this.config.contentServiceUrl);
-        //console.log(this.config.authorizationHeader);
+        ////console.log("Config Loaded");
+        ////console.log(this.config.contentServiceUrl);
+        ////console.log(this.config.authorizationHeader);
         config
         
         

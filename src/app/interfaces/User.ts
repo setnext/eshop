@@ -1,15 +1,15 @@
 export interface User {
 
-  firstName: String;
-  lastName: String;
-  gender: String;
-  email: String;
-  password: String;
-  dateOfBirth: String;
-  address: String;
-  pincode: String;
-  state: String;
-  city: String;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  email: string;
+  password: string;
+  dateOfBirth: string;
+  address: string;
+  pincode: string;
+  state: string;
+  city: string;
   }
 
  export enum ObjectType {

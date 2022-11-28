@@ -45,26 +45,31 @@ export class LoginComponent implements OnInit {
     if (this.loginForm?.invalid) {
       return;
     }
-    this.auth.login(data.userName,data.password).subscribe(data=>{
+    this.auth.login(data.userName.trim(),data.password.trim()).subscribe(data=>{
+      this.localStore.saveData("isLogged","true",ObjectType.text, false);
       this.localStore.saveData('customerToken',data.token,ObjectType.text, false);
-      console.log(data.user);
+      //console.log(data.user);
       this.localStore.saveData('customerInfo', data.user,ObjectType.json, true);
       const item = this.localStore.getData('customerInfo',ObjectType.json, true);
-      console.log(item);
-      console.log(item.firstName);
+      //console.log(item);
+      //console.log(item.firstName);
       this.auth.updateLoggInStatus(true);
       this.router.navigateByUrl('/')
     },
     error=>{
       this.auth.updateLoggInStatus(false);
-      //console.log(error['status']);
+      ////console.log(error['status']);
       switch(error['status']){
+        case 404:
+          ////console.log("User Not Found, Check Email/Passwords are correct ");
+          this.loginFailedStatus = "Login Failed, Check Email/Passwords are correct"
+          break;
         case 401:
-          //console.log("Login Failed, Check Email/Passwords are correct ");
+          ////console.log("Login Failed, Check Email/Passwords are correct ");
           this.loginFailedStatus = "Login Failed, Check Email/Passwords are correct"
           break;
         default:
-          //console.log("Login Failed, UnKnown Error");
+          ////console.log("Login Failed, UnKnown Error");
           this.loginFailedStatus = "Login Failed, UnKnown Error"
 
       } 
