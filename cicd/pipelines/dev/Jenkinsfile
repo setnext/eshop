@@ -38,7 +38,7 @@ pipeline {
       agent {
         docker {
           image 'node:lts-buster-slim'
-          args '-v /Users/nbabu/.npm:/root/.npm'
+          args '-v /Users/nbabu/.npm:/root/.npm -u root:root''
         }
       }
     steps {
