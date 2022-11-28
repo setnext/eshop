@@ -19,7 +19,7 @@ pipeline {
         script {
           def scmVars = checkout([$class: 'GitSCM',
             branches: [
-              [name: "*/{GIT_HUB_BRANCH}"]
+              [name: "*/${GIT_HUB_BRANCH}"]
             ],
             userRemoteConfigs: [
               [credentialsId: "${GIT_HUB_CREDENTIAL_ID}",
