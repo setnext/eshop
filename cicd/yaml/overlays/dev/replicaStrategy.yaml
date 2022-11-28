@@ -4,7 +4,6 @@ metadata:
   labels:
     app: eshop
   name: eshop
-  namespace: web
 spec:
   replicas: 1
   selector:
