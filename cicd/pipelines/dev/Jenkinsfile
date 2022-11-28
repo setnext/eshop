@@ -46,5 +46,22 @@ pipeline {
       sh 'npm run build'
     }
     }
+    stage('Docker Build') {
+      agent any
+      steps {
+        script {
+          sh 'docker build --build-arg --progress=plain --no-cache -t ${REPONAME}/${IMAGETAG} .'
+        }
+      }
+    }
+    stage('Push Image to Hub') {
+    	agent any
+      steps {
+      	withCredentials([usernamePassword(credentialsId: 'setnextdockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+        	sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push ${REPONAME}/${IMAGETAG}'
+        }
+      }
+    }
   }
 }
