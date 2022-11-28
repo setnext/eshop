@@ -10,6 +10,6 @@ spec:
     - port: 80
       name: "80"
       targetPort: 80
-      nodePort: 32000
+      nodePort: 37000
   selector:
     app: eshop
