@@ -15,6 +15,8 @@ pipeline {
     IMAGE = "${NAME}:${VERSION}"
     REPONAME = "setnext"
     KUSTOMIZE_LOCATION = "cicd/yaml/overlays/dev"
+    KUSTOMIZE_BASE_LOCATION = "cicd/yaml/base"
+    
   }
   stages {
     stage('Checkout Eshop Web Api') {
@@ -71,11 +73,11 @@ pipeline {
       agent any
       steps {
         script {
+          sh "sed -i '' 's#{image}#${REPONAME}/${IMAGETAG}#' ${KUSTOMIZE_BASE_LOCATION}/deployment.yaml"
           sh "sed -i '' 's#{NAMESPACE}#${K8S_NAMESPACE}#' ${KUSTOMIZE_LOCATION}/namespace.yaml"
           sh "kubectl apply -f ${KUSTOMIZE_LOCATION}/namespace.yaml"
           sh "sed -i '' 's#"{NAMESPACE}"#${K8S_NAMESPACE}#' ${KUSTOMIZE_LOCATION}/kustomization.yaml"
-          sh "sed -i '' 's#{image}#${REPONAME}/${IMAGETAG}#' cicd/yaml/base/deployment.yaml"
-          sh "kustomize build cicd/yaml/overlays/dev/ | kubectl apply -f -"
+          sh "kustomize build ${KUSTOMIZE_LOCATION} | kubectl apply -f -"
         }
       }
     }
