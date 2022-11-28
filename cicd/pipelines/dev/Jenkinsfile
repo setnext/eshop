@@ -41,10 +41,10 @@ pipeline {
           args '-p 4200:4200'
         }
       }
-    }
     steps {
       sh 'npm install'
       sh 'npm build'
+    }
     }
   }
 }
