@@ -75,7 +75,7 @@ pipeline {
           sh "sed -i '' 's#{image}#${REPONAME}/${IMAGETAG}#' ${KUSTOMIZE_BASE_LOCATION}/deployment.yaml"
           sh "sed -i '' 's#{NAMESPACE}#${K8S_NAMESPACE}#' ${KUSTOMIZE_LOCATION}/namespace.yaml"
           sh "kubectl apply -f ${KUSTOMIZE_LOCATION}/namespace.yaml"
-          sh "sed -i '' 's#"{NAMESPACE}"#${K8S_NAMESPACE}#' ${KUSTOMIZE_LOCATION}/kustomization.yaml"
+          sh "sed -i '' 's#{NAMESPACE}#${K8S_NAMESPACE}#' ${KUSTOMIZE_LOCATION}/kustomization.yaml"
           sh "kustomize build ${KUSTOMIZE_LOCATION} | kubectl apply -f -"
         }
       }
