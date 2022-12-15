@@ -1,2 +1,2 @@
-# setNext's eShop - Microservice Based
+# setNext's eShop - Microservice Based Service
 
