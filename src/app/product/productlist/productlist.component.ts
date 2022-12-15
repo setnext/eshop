@@ -114,7 +114,9 @@ export class ProductlistComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+    console.log("config is", this.router.config);
+
+    console.log("Product List page landed");
 
     this.loading=true;
 

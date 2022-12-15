@@ -127,3 +127,14 @@ label.radio input:checked+div {
 	cursor: pointer;
 } */
 
+
+table tr td {
+	line-height: 10px;
+	min-height: 10px;
+	height: 10px;
+}
+
+table{
+	height:200px;             
+	display: -moz-groupbox;   
+}

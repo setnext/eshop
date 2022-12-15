@@ -74,7 +74,7 @@ export class ProductDetailComponent implements OnInit {
        
     this.productService.getProductsById(this.pid).subscribe(pdata=>{
 
-      
+      console.log(pdata.feature_attributes);
       
       this.selectedColor = pdata.color;
       this.selectedSize = pdata.size;

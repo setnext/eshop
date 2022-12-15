@@ -14,11 +14,6 @@ const routes: Routes = [
         component: ProductComponent,
         children: [
             {path: '', component: ProductlistComponent},
-            {path: 'women', component: ProductlistComponent},
-            {path: 'men', component: ProductlistComponent},
-            {path: 'boys', component: ProductlistComponent},
-            {path: 'girls', component: ProductlistComponent},
-            {path: 'cosmetics', component: ProductlistComponent},
             {path: '**', redirectTo: ''}
           
           ]
@@ -29,12 +24,71 @@ const routes: Routes = [
         component: ProductComponent,
         children: [
             {path: '', component: ProductlistComponent},
-            {path: 'mobiles', component: ProductlistComponent},
-            {path: 'laptops', component: ProductlistComponent},
-            {path: 'home-entertainment', component: ProductlistComponent},
-            {path: 'audio', component: ProductlistComponent},
-            {path: 'cameras', component: ProductlistComponent},
-            {path: '', redirectTo: 'all', pathMatch: 'full' }
+            {path: '**', redirectTo: ''}
+          
+          ]
+    },
+    {
+        
+        path: 'products/furniture',
+        component: ProductComponent,
+        children: [
+            {path: '', component: ProductlistComponent},
+            {path: '**', redirectTo: ''}
+          
+          ]
+    }
+    ,
+    {
+        
+        path: 'products/books',
+        component: ProductComponent,
+        children: [
+            {path: '', component: ProductlistComponent},
+            {path: '**', redirectTo: ''}
+          
+          ]
+    }
+    ,
+    {
+        
+        path: 'products/baby',
+        component: ProductComponent,
+        children: [
+            {path: '', component: ProductlistComponent},
+            {path: '**', redirectTo: ''}
+          
+          ]
+    },
+    {
+        
+        path: 'products/beauty',
+        component: ProductComponent,
+        children: [
+            {path: '', component: ProductlistComponent},
+            {path: '**', redirectTo: ''}
+          
+          ]
+    }
+    ,
+    {
+        
+        path: 'products/pet',
+        component: ProductComponent,
+        children: [
+            {path: '', component: ProductlistComponent},
+            {path: '**', redirectTo: ''}
+          
+          ]
+    }
+    ,
+    {
+        
+        path: 'products/sports',
+        component: ProductComponent,
+        children: [
+            {path: '', component: ProductlistComponent},
+            {path: '**', redirectTo: ''}
           
           ]
     }

@@ -8,6 +8,7 @@ export interface Config {
   apiToken:string;
   imageCloudfrontURL:string;
   productServiceUrl:string;
+  rangeServiceUrl:string;
 }
 
 @Injectable({
@@ -21,7 +22,8 @@ export class ConfigService {
     authorizationHeader: '',
     apiToken:'',
     imageCloudfrontURL:'',
-    productServiceUrl:''
+    productServiceUrl:'',
+    rangeServiceUrl:''
 
 };
 

@@ -14,6 +14,7 @@ import { faHome,faFileCircleExclamation,faTriangleExclamation,faClose, faExpandA
 export class ProductComponent implements OnInit {
   
   tabContext:any
+  CategoryHead:any;
 
   tabs:any =[]
   loading = false;
@@ -36,12 +37,13 @@ export class ProductComponent implements OnInit {
 
     this.range.getSubCategoriesByCategory(this.tabContext).subscribe(data=>{
       //console.log("Received Sub Menus");
-
+      
       
       
       data.unshift( {
         "category": this.tabContext,
         "sub_category": "All",
+        "display_name": "All",
         "sub_category_path":"/",
         "is_active": false,
         "is_landing_category": false,
@@ -143,6 +145,9 @@ export class ProductComponent implements OnInit {
     this.loading=true;
 
     this.tabContext = this.router.url.split("/products")[1]
+    this.CategoryHead = this.tabContext.slice(1,this.tabContext.length);
+
+
 
    
 
