@@ -16,11 +16,12 @@ body {
 
 .act-price {
 	color: red;
-	font-weight: 700
+	font-weight: bold
 }
 
 .dis-price {
-	text-decoration: line-through
+	text-decoration: line-through;
+	font-weight: bold
 }
 
 .about {

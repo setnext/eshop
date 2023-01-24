@@ -17,6 +17,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NavigationService } from './services/navigationService/nav.service';
 
 export const configFactory = (configService: ConfigService) => {
   return () => configService.loadConfig();
@@ -64,7 +65,9 @@ export interface Data {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    NavigationService
+    
    
     
   ],

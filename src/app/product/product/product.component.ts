@@ -4,6 +4,7 @@ import { from } from 'rxjs';
 import { RangeService } from 'src/app/services/rangeService/range.service';
 import { ProductlistComponent } from '../productlist/productlist.component';
 import { faHome,faFileCircleExclamation,faTriangleExclamation,faClose, faExpandAlt,faHeart,faShoppingBag,faStar,faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { NavigationService } from 'src/app/services/navigationService/nav.service';
 
 
 @Component({
@@ -21,7 +22,12 @@ export class ProductComponent implements OnInit {
 
   subMenus:any;
 
-  constructor(private router: Router,private range:RangeService) { }
+  constructor(private router: Router,private range:RangeService,private navigationService:NavigationService) {
+    this.navigationService.category$?.subscribe(category =>{
+      this.CategoryHead = category;
+    });
+
+   }
 
 
   getSubCategories(category:String){
@@ -140,14 +146,14 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+    console.log("Landing Page Component Main");
 
     this.loading=true;
 
     this.tabContext = this.router.url.split("/products")[1]
     this.CategoryHead = this.tabContext.slice(1,this.tabContext.length);
 
-
+    console.log("this.CategoryHead",this.CategoryHead)
 
    
 

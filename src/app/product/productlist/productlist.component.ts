@@ -3,6 +3,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { faHome,faFileCircleExclamation,faTriangleExclamation,faClose, faExpandAlt,faHeart,faShoppingBag,faStar,faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { ConfigService } from 'src/app/services/config.service';
+import { NavigationService } from 'src/app/services/navigationService/nav.service';
 import { ProductService } from 'src/app/services/productService/product.service';
 
 export interface productType{
@@ -60,9 +61,11 @@ export class ProductlistComponent implements OnInit {
 
   pagedProducts:any;
   imageUrl: string="";
+  currencySymbol="USD";
+  CategoryHead: any;
 
 
-  constructor(private router: Router, private productService:ProductService,private metaTagService:Meta,private title:Title,private config:ConfigService) { }
+  constructor(private router: Router, private productService:ProductService,private metaTagService:Meta,private title:Title,private config:ConfigService,private navigationService:NavigationService) { }
   
   show(productItem:any)
   {
@@ -114,18 +117,32 @@ export class ProductlistComponent implements OnInit {
 
   ngOnInit(): void {
 
+
     console.log("config is", this.router.config);
 
     console.log("Product List page landed");
 
     this.loading=true;
 
-    this.imageUrl = this.config.config.imageCloudfrontURL
+    this.imageUrl = this.config.config.imageCloudfrontURL;
+    this.currencySymbol = this.config.config.currencySymbol;
 
    this.error="";
    this.productCategory =  this.router.url;
+   
 
     this.tabContext = this.router.url.split("/products")[1]
+
+    
+    this.CategoryHead = this.tabContext.slice(1,this.tabContext.length);
+
+    console.log("lenght", this.CategoryHead.split("/").length);
+    if(this.CategoryHead.split("/").length==1)
+    {
+      this.CategoryHead  = this.CategoryHead + "/all";
+    }
+    
+    this.navigationService.updateCategory( this.CategoryHead);
 
     this.title.setTitle("Eshop - Products Page" + this.tabContext);
 

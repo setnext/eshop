@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/productService/product.service';
-import { faHome,faCheck,faStarHalf ,faStarHalfStroke,faFileCircleExclamation,faTriangleExclamation,faClose, faExpandAlt,faHeart,faShoppingBag,faStar,faStarHalfAlt,faStarAndCrescent } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faCheck, faStarHalf, faStarHalfStroke, faFileCircleExclamation, faTriangleExclamation, faClose, faExpandAlt, faHeart, faShoppingBag, faStar, faStarHalfAlt, faStarAndCrescent } from '@fortawesome/free-solid-svg-icons';
 import { ConfigService } from 'src/app/services/config.service';
 import { Observable } from 'rxjs';
 
@@ -13,112 +13,129 @@ import { Observable } from 'rxjs';
 })
 export class ProductDetailComponent implements OnInit {
 
+
   pid: any;
-  pname:any;
-  product:any;
-  imageUrl=""
-  error="";
-  loading=false;
-  faFileCircleExclamation =faFileCircleExclamation;
+  pname: any;
+  product: any;
+  imageUrl = ""
+  error = "";
+  loading = false;
+  faFileCircleExclamation = faFileCircleExclamation;
   faTriangleExclamation = faTriangleExclamation;
-  faStar=faStar
+  faStar = faStar
   faStarHalf = faStarHalfAlt;
-  faStarHalfStroke=faStarHalfStroke
-  faStarAndCrescent=faStarAndCrescent
-  wishItem=false;
+  faStarHalfStroke = faStarHalfStroke
+  faStarAndCrescent = faStarAndCrescent
+  wishItem = false;
 
 
 
-  faCheck=faCheck;
-  landingCategory:any;
-  landingUrl:any;
-  selectedColor:any;
-  selectedSize:any;
+  faCheck = faCheck;
+  landingCategory: any;
+  landingUrl: any;
+  selectedColor: any;
+  selectedSize: any;
+  selectedModel:any;
+  currencySymbol: string="USD";
 
 
-  constructor(private route: ActivatedRoute,private router: Router, private productService:ProductService, private config:ConfigService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService, private config: ConfigService) { }
 
-  onChangeColor(e:any){
-    this.selectedColor= e.target.value;
+  onChangeColor(e: any) {
+    this.selectedColor.name = e.target.value;
   }
-  onChangeSize(e:any){
-    this.selectedSize= e.target.value;
+  onChangeSize(e: any) {
+    this.selectedSize = e.target.value;
   }
+  onChangeModel(e: any) {
+    this.selectedModel = e.target.value;
+    }
   ngOnInit(): void {
 
-    
+
     // this.pid = this.route.snapshot.paramMap.get('id')
     // this.pname = this.route.snapshot.paramMap.get('name')
-    this.loading=true;
-    this.imageUrl = this.config.config.imageCloudfrontURL
+    this.loading = true;
+    this.imageUrl = this.config.config.imageCloudfrontURL+'images/';
+    console.log("Image Url",this.imageUrl);
     this.landingUrl = this.router.url;
-    console.log('curent url',this.router.url);
+    console.log('curent url', this.router.url); 
+    this.currencySymbol = this.config.config.currencySymbol;
 
     this.route.queryParams
-    .subscribe(params => {
-      console.log(params); // { orderby: "price" }
-      this.landingCategory = params['cat'].split('/');
-      console.log('landing ', this.landingCategory.length); // price
-    }
-  );
+      .subscribe(params => {
+        console.log("params",params); // { orderby: "price" }
+        this.landingCategory = params['cat'].split('/');
+       
+        console.log('landing ', this.landingCategory); // price
+        console.log('landing ', this.landingCategory.length);
+      }
+      );
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       console.log(params);
 
       this.pid = params.get('id')
       this.pname = params.get('name')
-      
-      
-    
+
+      console.log("PID",this.pid);
+      console.log("PName",this.pname);
+
+
+
+
+
+      this.productService.getProductsById(this.pid).subscribe(pdata => {
+
+        console.log(pdata);
+        console.log(pdata.productNotes);
+        console.log(pdata.product_notes);
+
+        // console.log("feature_attributes",pdata.feature_attributes);
+
+        this.selectedColor = pdata.productVariants.colors[0];
+        this.selectedSize = pdata.productVariants.sizes[0];
+        this.selectedModel = pdata.productVariants.models[0];
+
 
        
-    this.productService.getProductsById(this.pid).subscribe(pdata=>{
+        // pdata.additional_image_urls.unshift(pdata.image_url);
 
-      console.log(pdata.feature_attributes);
-      
-      this.selectedColor = pdata.color;
-      this.selectedSize = pdata.size;
-
-      console.log(pdata)
-      console.log();
-      pdata.additional_image_urls.unshift(pdata.image_url);
-    
-      this.product = pdata;
-      this.loading=false;
+        this.product = pdata;
+        this.loading = false;
 
 
 
-    },(error) => {
-      this.loading=false;
-      //console.log(error);
-      this.error="Error at Server, Please try again in sometime"
-    });
+      }, (error) => {
+        this.loading = false;
+        //console.log(error);
+        this.error = "Error at Server, Please try again in sometime"
+      });
 
 
 
     })
   }
 
-  wishlist(pid:any)
-  {
+  wishlist(pid: any) {
 
-    if(this.wishItem){
+    if (this.wishItem) {
       this.wishItem = false;
     }
-    else{
-    this.wishItem=true;
+    else {
+      this.wishItem = true;
     }
 
 
-    
-console.log(pid);
+
+    console.log(pid);
 
   }
-  over(image:any){
+  over(image: any) {
 
     console.log(image);
 
-    (document.getElementById('main-image') as HTMLImageElement).src = this.imageUrl+image+'?d=1000x1500';
+    (document.getElementById('main-image') as HTMLImageElement).src = this.imageUrl + image + '?d=1000x1500';
 
     console.log('done');
 
