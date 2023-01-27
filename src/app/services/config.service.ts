@@ -10,6 +10,7 @@ export interface Config {
   productServiceUrl:string;
   rangeServiceUrl:string;
   currencySymbol:string;
+  authServiceUrl:string;
 }
 
 @Injectable({
@@ -25,7 +26,8 @@ export class ConfigService {
     imageCloudfrontURL:'',
     productServiceUrl:'',
     rangeServiceUrl:'',
-    currencySymbol:''
+    currencySymbol:'',
+    authServiceUrl:''
 
 };
 

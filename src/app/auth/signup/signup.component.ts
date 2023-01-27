@@ -570,12 +570,8 @@ export class SignupComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     this.initForm();
 
-
-
-   
   }
 
   initForm(){
@@ -595,20 +591,13 @@ export class SignupComponent implements OnInit {
   }
 
   resetForm(){
-    //console.log("resetting");
     this.submitted = false;
-    //  this.initForm();
     this.formdata.reset();
-
   }
 
   onClickSubmit(data: any) {
     this.submitted = true;
-    ////console.log(this.formdata);
-
     if (this.formdata.invalid) {
-      ////console.log(this.formdata);
-      ////console.log("form is invalid")
       return;
     }
 
@@ -625,12 +614,8 @@ export class SignupComponent implements OnInit {
     ////console.log(data);
 
     this.auth.signup(this.user).subscribe(data => {
-      //console.log("Registration Completed Successfully");
-      ////console.log(data.token);
-      
       this.registrationCompleted=true;
       this.formdata.reset();  
-      ////console.log('decrpted data ', this.localStore.getData('customerToken',false));
     },
       error => {
         switch (error['status']) {
@@ -641,19 +626,6 @@ export class SignupComponent implements OnInit {
             this.signupFailedStatus = "Signup Failed, UnKnown Error"
         }
       });
-
-    //     this.http.post<any>('http://localhost:3000/auth/signup', {
-    //     name: data.firstName,
-    //     email: data.email,
-    //     password: data.password,
-    //  },{headers: {
-    //   "content-type": "application/json"}}).subscribe(data => {
-    //       ////console.log("Registration Completed Successfully");
-    //       ////console.log(data.token);
-    //       this.localStore.saveData('customerToken', data.token,false);
-    //       ////console.log('decrpted data ', this.localStore.getData('customerToken',false));
-    //   });
-
 
   }
 

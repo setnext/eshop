@@ -15,14 +15,16 @@ export class AuthService {
   firstName$: Observable<string> | undefined;
   private firstName: Subject<string>;
   private isLoggedIn: Subject<boolean>;
+  configServiceUrl: String =""
 
  
-  constructor(private http: HttpClient,private localStore:LocalService){
+  constructor(private http: HttpClient,private localStore:LocalService, private config:ConfigService){
 
     this.isLoggedIn = new Subject<boolean>();
     this.isLoggedIn$ = this.isLoggedIn.asObservable();
     this.firstName = new Subject<string>();
     this.firstName$ = this.firstName.asObservable();
+    this.configServiceUrl = this.config.config.authServiceUrl;
 
    
   }
@@ -36,7 +38,7 @@ export class AuthService {
 
 login(userName:string,password:string):Observable<any>{
 
-  return this.http.post<any>('http://localhost:3000/auth/signin', {
+  return this.http.post<any>(this.configServiceUrl+'/auth/signin', {
     email: userName,
     password: password,
  },{headers: {
@@ -49,7 +51,7 @@ login(userName:string,password:string):Observable<any>{
 }
 signup(user:User):Observable<any>{
 
-  return this.http.post<any>('http://localhost:3000/auth/signup', {
+  return this.http.post<any>(this.configServiceUrl+'/auth/signup', {
     user
  },{headers: {
   "content-type": "application/json"}}).pipe(
