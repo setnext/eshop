@@ -30,9 +30,15 @@ export class BannersComponent implements OnInit {
      var imgArray =[];   
     this.http.get<any>(this.cmsOrigin+'/api/banners?populate=*').subscribe(data => {
         ////console.log("banner received");
-        
+        console.log(data);
         this.banners = data;
         this.loading=false;
+        this.banners.forEach((e: any) => {
+          console.log(e);
+          
+        });
+
+        data[2]?.attributes.image.data.attributes.formats.large.url
 
         
         // ////console.log(data.data[0].attributes.image.data.attributes.formats.large.url);
@@ -42,7 +48,9 @@ export class BannersComponent implements OnInit {
     this.http.get<any>(this.cmsOrigin+'/api/banner-sms?populate=*').subscribe(data1 => {
         ////console.log("banner-sm data received");
         this.smbanners = data1.data;
+
         this.loading=false;
+        console.log(data1);
         // ////console.log(data1.data);
         // ////console.log(this.smbanners[0].attributes.image.data.attributes.formats.small.url);
         // // this.smbanners.array.forEach((element: any) => {

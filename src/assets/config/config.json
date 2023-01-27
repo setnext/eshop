@@ -1,5 +1,5 @@
 {
-    "contentServiceUrl": "http://localhost:8085",
+    "contentServiceUrl": "http://localhost:1337",
     "productServiceUrl":  "http://localhost:8082",
     "rangeServiceUrl":  "http://localhost:8082",
     "authServiceUrl": "http://localhost:3000",
