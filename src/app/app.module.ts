@@ -18,6 +18,10 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigationService } from './services/navigationService/nav.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ContentService } from './services/contentService/content.service';
+import { UnauthcartComponent } from './unauthcart/unauthcart.component';
+import { CartService } from './services/cartService/cart.service';
 
 export const configFactory = (configService: ConfigService) => {
   return () => configService.loadConfig();
@@ -41,7 +45,8 @@ export interface Data {
     BannersComponent,
     FooterComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    UnauthcartComponent
     
   ],
   imports: [
@@ -51,7 +56,9 @@ export interface Data {
     FontAwesomeModule,
     ProductModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule,
+    
   ],
   providers: [
     AuthService,
@@ -66,7 +73,9 @@ export interface Data {
       useClass: AuthInterceptor,
       multi: true
     },
-    NavigationService
+    NavigationService,
+    ContentService,
+    CartService
     
    
     

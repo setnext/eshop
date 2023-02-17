@@ -11,6 +11,7 @@ export interface Config {
   rangeServiceUrl:string;
   currencySymbol:string;
   authServiceUrl:string;
+  cartServiceUrl:string;
 }
 
 @Injectable({
@@ -27,7 +28,8 @@ export class ConfigService {
     productServiceUrl:'',
     rangeServiceUrl:'',
     currencySymbol:'',
-    authServiceUrl:''
+    authServiceUrl:'',
+    cartServiceUrl:''
 
 };
 
@@ -40,9 +42,9 @@ export class ConfigService {
       .toPromise()
       .then(config => {
         this.config= config!;
-        ////console.log("Config Loaded");
-        ////console.log(this.config.contentServiceUrl);
-        ////console.log(this.config.authorizationHeader);
+        //////console.log("Config Loaded");
+        //////console.log(this.config.contentServiceUrl);
+        //////console.log(this.config.authorizationHeader);
         config
         
         

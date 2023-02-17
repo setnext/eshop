@@ -101,7 +101,7 @@ const routes: Routes = [
   export class ProductRoutingModule implements OnInit {
 
     ngOnInit(): void {
-        console.log("product routing onInt");
+        //console.log("product routing onInt");
         
     }
    }

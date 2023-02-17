@@ -6,13 +6,15 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { BannersComponent } from './banners/banners.component';
 import { BaseComponent } from './base/base.component';
 import { TestrouteComponent } from './testroute/testroute.component';
+import { UnauthcartComponent } from './unauthcart/unauthcart.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/bannerHome', pathMatch: 'full' },
   { path: 'bannerHome', component: BannersComponent },
   {path:'login',component:LoginComponent,pathMatch: 'full'},
-  {path:'signup',component:SignupComponent,pathMatch: 'full'}
+  {path:'signup',component:SignupComponent,pathMatch: 'full'},
+  {path:'unauthcart',component:UnauthcartComponent,pathMatch: 'full'}
 ];
 
 @NgModule({

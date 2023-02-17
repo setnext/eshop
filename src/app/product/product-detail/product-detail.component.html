@@ -65,9 +65,9 @@
                                 <h5 class="text-uppercase">{{product.productName}}</h5>
                                 <div class="price d-flex flex-row align-items-center">
                                     <span *ngIf="product.commerceAttributes.isOnSale && product.priceInfo.sales_price!=null"
-                                        class="act-price">{{product.priceInfo.sales_price| currency:currencySymbol:true:'2.0'}}</span>
+                                        class="act-price">{{product.priceInfo.sales_price|currency:currencySymbol:'symbol-narrow':'1.0-0'}}</span>
                                     <div class="ml-2"> <small
-                                            [ngClass]="product.commerceAttributes.isOnSale? 'dis-price mx-2':'act-price'">{{product.priceInfo.mrp_price| currency:currencySymbol:true:'2.0'}}</small>
+                                            [ngClass]="product.commerceAttributes.isOnSale? 'dis-price mx-2':'act-price'">{{product.priceInfo.mrp_price| currency:currencySymbol:'symbol-narrow':'1.0-0'}}</small>
                                         <span class="mx-2 text-success"
                                             *ngIf="product.commerceAttributes.isOnSale && product.priceInfo.discount!=null">{{product.priceInfo.discount}}%
                                             Offer</span>
@@ -165,7 +165,7 @@
 
 
                             <div class="cart mt-4 align-items-center">
-                                <button
+                                <button type="button" (click)="addToCart(product)"
                                     [ngClass]="product.stockInfo.isOnStock?'btn btn-info text-uppercase mr-2 px-4':'btn btn-light text-uppercase mr-2 px-4'"
                                     [disabled]="!product.stockInfo.isOnStock">Add to cart</button>
 

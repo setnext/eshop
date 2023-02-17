@@ -2,11 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/authService/auth.service';
 import { ConfigService } from '../services/config.service';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ProductService } from '../services/productService/product.service';
+import { ContentService } from '../services/contentService/content.service';
 
 @Component({
   selector: 'app-banners',
   templateUrl: './banners.component.html',
-  styleUrls: ['./banners.component.css']
+  styleUrls: ['./banners.component.css'],
+  providers: [NgbCarouselConfig]
 })
 export class BannersComponent implements OnInit {
   banners:any=[];
@@ -16,56 +20,27 @@ export class BannersComponent implements OnInit {
   loading = false;
   total = 0;
   total1 = 0;
+  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
-  constructor(private auth:AuthService, private http: HttpClient, private conf:ConfigService) { }
+  constructor(private auth:AuthService, private cmsService:ContentService, private http: HttpClient, private conf:ConfigService, caro:NgbCarouselConfig,private productService:ProductService) {
+
+    caro.interval = 3000;
+    caro.keyboard = true;
+    caro.pauseOnHover = true;
+   }
 
   ngOnInit(){
     this.loading=true;
     
     const token = this.conf.config.authorizationHeader;
     this.cmsOrigin = this.conf.config.contentServiceUrl;
-  
-    
-
-     var imgArray =[];   
-    this.http.get<any>(this.cmsOrigin+'/api/banners?populate=*').subscribe(data => {
-        ////console.log("banner received");
-        console.log(data);
-        this.banners = data;
-        this.loading=false;
-        this.banners.forEach((e: any) => {
-          console.log(e);
-          
-        });
-
-        data[2]?.attributes.image.data.attributes.formats.large.url
-
-        
-        // ////console.log(data.data[0].attributes.image.data.attributes.formats.large.url);
-       
-    });
-
-    this.http.get<any>(this.cmsOrigin+'/api/banner-sms?populate=*').subscribe(data1 => {
-        ////console.log("banner-sm data received");
-        this.smbanners = data1.data;
-
-        this.loading=false;
-        console.log(data1);
-        // ////console.log(data1.data);
-        // ////console.log(this.smbanners[0].attributes.image.data.attributes.formats.small.url);
-        // // this.smbanners.array.forEach((element: any) => {
-        //   ////console.log(element);
-        // });
-    });
-
-    
-
-    // for (let i = 0; banners.length -1; i++) {
-    //   ////console.log(banners[0].Image.large.url);
-    // }
-   
- 
-    
+     var imgArray =[];
+     this.cmsService.fetchBanner("main").subscribe(data => {
+      //console.log(data);
+      this.banners = data;
+      this.loading=false;
+     
+  });  
 
   }
 

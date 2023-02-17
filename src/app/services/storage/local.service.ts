@@ -38,19 +38,23 @@ export class LocalService {
     }
   }
 
-  public getData(key: string,type:ObjectType, isDecryptRequired: boolean) {
+  public getData(key: string, type: ObjectType, isDecryptRequired: boolean) {
+    //console.log("key: ", key);
     if (isDecryptRequired) {
-      if(type==ObjectType.json){
-      let data = localStorage.getItem(key) || "";
-      let jsonObj = JSON.parse(this.decrypt(data));
-      return jsonObj;
-      }
-      else
-      {
+      if (type == ObjectType.json) {
         let data = localStorage.getItem(key) || "";
-      return this.decrypt(data);
+        if (data == "") {
+          return null;
+        };
+        //console.log(data);
+        let jsonObj = JSON.parse(this.decrypt(data));
+        return jsonObj;
       }
-      
+      else {
+        let data = localStorage.getItem(key) || "";
+        return this.decrypt(data);
+      }
+
 
     }
     else {

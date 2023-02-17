@@ -611,7 +611,7 @@ export class SignupComponent implements OnInit {
     this.user.pincode = data.pincode;
     this.user.state = data.state;
     this.user.city = data.city;
-    ////console.log(data);
+    //////console.log(data);
 
     this.auth.signup(this.user).subscribe(data => {
       this.registrationCompleted=true;

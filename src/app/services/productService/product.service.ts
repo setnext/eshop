@@ -27,7 +27,7 @@ import { ConfigService } from "../config.service";
 
         return this.http.get<any>(this.productServiceUrl+ '/products/categories'+ category,{params: params}).pipe(
           catchError((err) => {
-            //console.log(err);
+            ////console.log(err);
             return throwError(err);    //Rethrow it back to component
           }));
         
@@ -38,7 +38,7 @@ import { ConfigService } from "../config.service";
 
         return this.http.get<any>(this.productServiceUrl+'/products/'+ id).pipe(
           catchError((err) => {
-            //console.log(err);
+            ////console.log(err);
             return throwError(err);    //Rethrow it back to component
           }));
         

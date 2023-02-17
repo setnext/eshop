@@ -1,4 +1,4 @@
-import { Component, enableProdMode, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, enableProdMode, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
 import { from } from 'rxjs';
 import { RangeService } from 'src/app/services/rangeService/range.service';
@@ -22,7 +22,7 @@ export class ProductComponent implements OnInit {
 
   subMenus:any;
 
-  constructor(private router: Router,private range:RangeService,private navigationService:NavigationService) {
+  constructor(private router: Router,private range:RangeService,private navigationService:NavigationService,private cdr: ChangeDetectorRef) {
     this.navigationService.category$?.subscribe(category =>{
       this.CategoryHead = category;
     });
@@ -32,8 +32,8 @@ export class ProductComponent implements OnInit {
 
   getSubCategories(category:String){
 
-    console.log("Fetching Sub Menus");
-    console.log(this.router.url);
+    //console.log("Fetching Sub Menus");
+    //console.log(this.router.url);
     if(this.tabContext.split("/").length!=2){
       let contexts = this.tabContext.split("/");
       this.tabContext = "/" + contexts[1];
@@ -42,7 +42,7 @@ export class ProductComponent implements OnInit {
 
 
     this.range.getSubCategoriesByCategory(this.tabContext).subscribe(data=>{
-      //console.log("Received Sub Menus");
+      ////console.log("Received Sub Menus");
       
       
       
@@ -59,11 +59,11 @@ export class ProductComponent implements OnInit {
      
       this.tabs  = data;
 
-      //console.log(this.router.config);
+      ////console.log(this.router.config);
 
       if(this.tabContext.split("/").length==2){
 
-        //console.log("root route");
+        ////console.log("root route");
         
        
         let routeNow = this.router.config;
@@ -82,8 +82,8 @@ export class ProductComponent implements OnInit {
         });
 
         routeNow.forEach((e:any,i) => {
-          // //console.log(this.router.url);
-          //console.log(e.path);
+          // ////console.log(this.router.url);
+          ////console.log(e.path);
           
           if("/" +e.path==this.router.url){
             routeNow[i].children = routeNew;
@@ -99,11 +99,11 @@ export class ProductComponent implements OnInit {
 
           // routeNow.forEach
         // routeNow.find((o,i) => {
-        //   //console.log(o.path);
+        //   ////console.log(o.path);
         //   if (o.path === this.router.url) {
-        //     //console.log("route found");
+        //     ////console.log("route found");
         //     routeNow[i].children = routeNew ;
-        //     //console.log(routeNow);
+        //     ////console.log(routeNow);
         //       return true; // stop searching
         //   }
         //   return true;
@@ -122,13 +122,13 @@ export class ProductComponent implements OnInit {
         
       // });
 
-      // //console.log(data);
+      // ////console.log(data);
       
       this.loading=false;
       return data;
 
     },(error) => {
-      //console.log(error);
+      ////console.log(error);
     });
 
   }
@@ -144,51 +144,42 @@ export class ProductComponent implements OnInit {
 //     );
 // }
 
+
+ngAfterViewInit() {
+   //console.log("Landing Page Component Main");
+
+   this.loading=true;
+
+   this.tabContext = this.router.url.split("/products")[1]
+   this.CategoryHead = this.tabContext.slice(1,this.tabContext.length);
+
+   //console.log("this.CategoryHead",this.CategoryHead)
+
+  
+
+   ////console.log(this.tabContext);
+   this.getSubCategories(this.tabContext);
+  this.cdr.detectChanges();
+}
+
   ngOnInit(): void {
 
-    console.log("Landing Page Component Main");
+    //console.log("Landing Page Component Main");
 
-    this.loading=true;
+    // this.loading=true;
 
-    this.tabContext = this.router.url.split("/products")[1]
-    this.CategoryHead = this.tabContext.slice(1,this.tabContext.length);
+    // this.tabContext = this.router.url.split("/products")[1]
+    // this.CategoryHead = this.tabContext.slice(1,this.tabContext.length);
 
-    console.log("this.CategoryHead",this.CategoryHead)
+    // //console.log("this.CategoryHead",this.CategoryHead)
 
    
 
-    //console.log(this.tabContext);
-    this.getSubCategories(this.tabContext);
+    // ////console.log(this.tabContext);
+    // this.getSubCategories(this.tabContext);
     
 
-    ////console.log(this.tabContext[1])
-
-
-
-
-    
-//     if(this.tabContext == '/fashion')
-//     {
-//       //console.log('fashion found');
-
-//     this.tabs = [{"name":"All","isActive":true, "path":"/"},
-//     {"name":"Women","isActive":false, "path":"/women"},
-//     {"name":"Men","isActive":false, "path":"/men"},
-//     {"name":"Boy","isActive":false, "path":"/boys"},
-//     {"name":"Girl","isActive":false, "path":"/girls"},
-//     {"name":"Cosmetics","isActive":false, "path":"/cosmetics"}, ]
-//   }
-//   if(this.tabContext == '/electronics')
-//   {
-//     //console.log('electronics found');
-
-//   this.tabs = [{"name":"All","isActive":true, "path":"/"},
-//   {"name":"Mobiles","isActive":false, "path":"/mobiles"},
-//   {"name":"Laptops","isActive":false, "path":"/laptops"},
-//   {"name":"Home Entertainment","isActive":false, "path":"/home-entertainment"},
-//   {"name":"Audio","isActive":false, "path":"/audio"},
-//   {"name":"Cameras","isActive":false, "path":"/cameras"}, ]
-// }
+   
 
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { faHome,faFileCircleExclamation,faTriangleExclamation,faClose, faExpandAlt,faHeart,faShoppingBag,faStar,faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
@@ -65,7 +65,7 @@ export class ProductlistComponent implements OnInit {
   CategoryHead: any;
 
 
-  constructor(private router: Router, private productService:ProductService,private metaTagService:Meta,private title:Title,private config:ConfigService,private navigationService:NavigationService) { }
+  constructor(private router: Router, private productService:ProductService,private metaTagService:Meta,private title:Title,private config:ConfigService,private navigationService:NavigationService,private cdr: ChangeDetectorRef) { }
   
   show(productItem:any)
   {
@@ -73,7 +73,7 @@ export class ProductlistComponent implements OnInit {
     this.currentProduct = productItem;
     this.showModal = true; // Show-Hide Modal Check
     // this.currentImageUrl = productItem.image_Url.split("?d")[0]+"?d=1000x1500";
-    // //console.log(this.currentProduct.pname);
+    // ////console.log(this.currentProduct.pname);
     
     
   }
@@ -93,9 +93,9 @@ export class ProductlistComponent implements OnInit {
     this.productService.getProductsByCategory(this.tabContext,event-1,this.tableSize).subscribe(data=>{
 
       
-      //console.log("data.curentPage: ", data.currentPage);
-      // //console.log("data.totalItems", data.totalItems);
-      // //console.log("data.totalPages", data.totalPages);
+      ////console.log("data.curentPage: ", data.currentPage);
+      // ////console.log("data.totalItems", data.totalItems);
+      // ////console.log("data.totalPages", data.totalPages);
     
       this.productList = data.products;
       this.page = event;
@@ -105,22 +105,25 @@ export class ProductlistComponent implements OnInit {
 
     },(error) => {
       this.loading=false;
-      //console.log(error);
+      ////console.log(error);
       this.error="Error at Server, Please try again in sometime"
     });
   }
   onTableSizeChange(event: any): void {
-    //console.log("table size changes");
+    ////console.log("table size changes");
     this.tableSize = event.target.value;
     this.page = 1;
   }
 
+ 
+
+
   ngOnInit(): void {
 
 
-    console.log("config is", this.router.config);
+    //console.log("config is", this.router.config);
 
-    console.log("Product List page landed");
+    //console.log("Product List page landed");
 
     this.loading=true;
 
@@ -136,7 +139,7 @@ export class ProductlistComponent implements OnInit {
     
     this.CategoryHead = this.tabContext.slice(1,this.tabContext.length);
 
-    console.log("lenght", this.CategoryHead.split("/").length);
+    //console.log("lenght", this.CategoryHead.split("/").length);
     if(this.CategoryHead.split("/").length==1)
     {
       this.CategoryHead  = this.CategoryHead + "/all";
@@ -153,20 +156,20 @@ export class ProductlistComponent implements OnInit {
     this.productService.getProductsByCategory(this.tabContext,this.page,this.tableSize).subscribe(data=>{
 
       
-      //console.log("data.curentPage: ", data.currentPage);
-      //console.log("data.totalItems", data.totalItems);
-      //console.log("data.totalPages", data.totalPages);
+      ////console.log("data.curentPage: ", data.currentPage);
+      ////console.log("data.totalItems", data.totalItems);
+      ////console.log("data.totalPages", data.totalPages);
     
       this.productList = data.products;
       
       this.count = data.totalItems;
       this.loading=false;
       
-
+     
 
     },(error) => {
       this.loading=false;
-      //console.log(error);
+      ////console.log(error);
       this.error="Oops, Error at Server, Please try again in sometime"
     });
 

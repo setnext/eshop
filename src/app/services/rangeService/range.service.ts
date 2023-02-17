@@ -23,7 +23,7 @@ import { ConfigService } from "../config.service";
 
         return this.http.get<any>(this.rangeServiceUrl+'/api/v1/range/categories'+ category).pipe(
           catchError((err) => {
-            //console.log(err);
+            ////console.log(err);
             return throwError(err);    //Rethrow it back to component
           }));
         

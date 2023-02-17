@@ -54,9 +54,9 @@
         </small>  -->
       </div>
       <div><span [ngClass]="productItem.commerceAttributes.isOnSale ? 'price onsale': 'price'">
-          {{productItem.priceInfo.mrp_price| currency:currencySymbol:true:'2.0'}}</span> <span *ngIf="productItem.commerceAttributes.isOnSale"
+          {{productItem.priceInfo.mrp_price| currency:currencySymbol:'symbol-narrow':'1.0-0'}}</span> <span *ngIf="productItem.commerceAttributes.isOnSale"
           class="price mx-2">
-          {{productItem.priceInfo.sales_price| currency:currencySymbol:true:'2.0'}}</span></div>
+          {{productItem.priceInfo.sales_price| currency:currencySymbol:'symbol-narrow':'1.0-0'}}</span></div>
       <div>
         <!-- <a routerLink="../../{{'dp/'+productItem.title.replaceAll(' ', '-')+'/'+ productItem._id}}/">Detail</a> -->
         <a [routerLink]="['/dp',productItem.productName.replaceAll(' ', '-'),productItem._id]"
